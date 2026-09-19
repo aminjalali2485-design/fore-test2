@@ -1,0 +1,388 @@
+# import pandas as pd
+
+# df = pd.read_csv('titanic.csv')
+# print(df.isnull().sum())
+
+# df['Age'].fillna(df['Age'].mean(),inplace=True)
+
+# for i in range(0, len(df), 100):
+#     batch = df[i: i+100]
+#     print(f"ready: {i//100}")
+
+# import pandas as pd
+
+# df = pd.read_csv('titanic.csv')
+
+# df['Sex'] = df['Sex'].map({'male': 0,'female': 1})
+
+# print(df[['Name','Sex']].head(10))
+
+# import pandas as pd
+
+# df = pd.read_csv('titanic.csv')
+
+# print(df.isnull().mean() * 100)
+# print("==================================")
+# df.drop('Cabin',axis = 1,inplace = True)
+# print(df.head())
+
+# import pandas as pd
+
+# df = pd.read_csv("titanic.csv")
+
+# print(df['Age'].isnull().sum())
+# print("==============================")
+# df['Age'] = df.groupby('Sex')['Age'].transform(lambda x: x.fillna(x.median()))
+
+# df['Age'] = df['Age'].round()
+# df['Age'] = df['Age'].astype(int)
+
+# print(df['Age'].isnull().sum())
+# print(df['Age'].dtype)
+# print(df.groupby('Sex')['Age'].median())
+# print(df['Age'])
+
+# import pandas as pd
+# df = pd.read_csv('titanic.csv')
+
+# df = pd.get_dummies(df, columns=['Embarked'],prefix='Port')
+
+# df['FamilySize'] = df['SibSp'] + df['Parch'] + 1
+
+# df['IsAlone'] = (df['FamilySize'] == 1).astype(int)
+
+# print(df[['Port_C','Port_Q','Port_S']].head(10))
+# print("---------------======================")
+# print(df[['SibSp','Parch','FamilySize','IsAlone']].head(10))
+
+# print(df.columns.tolist())
+# # print(df['Cabin'].head(10))
+# df["N"] = (df['Cabin'] == 'Nan').astype(chr)
+# print(df['N'])
+
+# import pandas as pd
+# import numpy as np
+
+# df = pd.read_csv('titanic.csv')
+
+# df['N'] = df['Cabin'].isna().map({True: "NaN",False: ''})
+
+# print(df[['N']].head(10))
+# count = 0
+# count1 = 0
+# for i in df['N']:
+#     if i == 'NaN':
+#         count += 1
+#     else:
+#         count1 += 1
+
+        
+# print(count)       
+# print(count1) 
+
+# import pandas as pd
+# import numpy as np
+
+# df = pd.read_csv('titanic.csv')
+
+# print(df.columns.tolist())
+# print(df['Embarked'].head(20))
+
+# df['C'] = np.where(df['Embarked'] == 'C','C', '0')
+# df['Q'] = np.where(df['Embarked'] == 'Q','Q', '0')
+# df['S'] = np.where(df['Embarked'] == 'S','S', '0')
+# print("==============")
+# print(df['C'].head(10))
+# print("==============")
+# print(df['Q'].head(10))
+# print("==============")
+# print(df['S'].head(10))
+
+
+# import pandas as pd
+# from sklearn.preprocessing import MinMaxScaler
+
+# df = pd.read_csv("titanic.csv")
+
+# cols_to_scale = ['Age','Fare']
+
+# scaler = MinMaxScaler()
+# df[cols_to_scale] = scaler.fit_transform(df[['Age','Fare']])
+# print(df[['Age','Fare']].head())
+
+# feature_cols = ["Pclass",'Sex','Age','Fare']
+
+# x = df[feature_cols]
+# y = df['Survived']
+
+# print(x.head(20))
+
+# print('+=+++++++++++++++++++++===================')
+
+# print(x.head())
+# print(f"number of feature: {x.shape[1]}")
+# print(f"number of faeture: {x.shape[0]}")
+
+# import sqlite3
+# import pandas as pd
+
+# df = pd.read_csv('titanic.csv')
+
+# conn = sqlite3.connect(':memory:')
+# df.to_sql('titanic', conn, index= False, if_exists='replace')
+
+# print(f"Database: {len(df)}")
+
+# query = "SELECT Name,Age FROM titanic WHERE Survived = 1 AND Age < 18 AND Sex = 'female';"
+# result = pd.read_sql_query(query, conn)
+# print(result)
+
+# import sqlite3
+# import pandas as pd
+
+# df = pd.read_csv("titanic.csv")
+# conn = sqlite3.connect(':memory:')
+# df.to_sql('titanic',conn,index=False,)
+
+# query = """SELECT Sex,AVG(Age) As Average
+# FROM titanic
+# GROUP BY Sex"""
+
+# print(pd.read_sql_query(query, conn))
+
+# query2 = """SELECT Embarked, COUNT(*) As Count, AVG(Fare) As AveFare
+# FROM titanic
+# WHERE Embarked IS NOT NULL
+# GROUP BY Embarked"""
+
+# print(pd.read_sql_query(query2, conn))
+
+# query3 = """SELECT Pclass, COUNT(*) As Total, SUM(Survived) As survivos, AVG(Age) As AveAge
+# FROM titanic
+# GROUP BY Pclass"""
+
+# print(pd.read_sql_query(query3, conn))
+
+# import pandas as pd
+# import sqlite3
+
+# df = pd.read_csv('titanic.csv')
+# conn = sqlite3.connect(':memory:')
+# df.to_sql('titanic',conn,index=False)
+
+# query = """SELECT Embarked,Age, AVG(Age) As AveAge
+# FROM titanic
+# GROUP BY Embarked"""
+
+# print(pd.read_sql_query(query, conn))
+
+# import sqlite3
+# import pandas as pd
+
+# df = pd.read_csv('titanic.csv')
+# conn = sqlite3.connect(':memory:')
+# df.to_sql('titanic',conn,index=False)
+
+# query = """SELECT Sex,COUNT(*),AVG(Fare) as AvgFare, SUM(Survived)
+# FROM titanic
+# GROUP BY Sex
+# """
+# print(pd.read_sql_query(query, conn))
+
+# import pandas as pd
+# import sqlite3
+
+# df = pd.read_csv('titanic.csv')
+# conn = sqlite3.connect(":memory:")
+# df.to_sql('titanic',conn, index=False)
+
+# ports_df = pd.DataFrame({
+#     'PortCode': ['S', 'C', 'Q'],
+#     'PortName': ['Southampton', 'Cherbourg', 'Queenstown']
+# })
+
+# ports_df.to_sql('Ports',conn,index=False)
+
+# print(pd.read_sql_query("SELECT * FROM ports",conn))
+    
+# print("=============================")
+
+# query2 = """
+# SELECT t.name, t.Embarked, p.PortName
+# FROM titanic t
+# JOIN ports p ON t.Embarked = p.PortCode
+# LIMIT 10;"""
+
+# print(pd.read_sql_query(query2, conn))
+
+# query3 ="""SELECT p.PortName, COUNT(*) AS PassengerCount, AVG(t.Fare) AS AvgFare
+# FROM titanic t
+# JOIN ports p ON t.Embarked = p.PortCode
+# WHERE t.Embarked IS NOT NULL
+# GROUP BY p.PortName;
+# """
+
+# print(pd.read_sql_query(query3, conn))
+
+# query3 = """SELECt p.PortName, SUM(Survived) As SumSur
+# FROM titanic t
+# JOIN ports p ON t.Embarked = p.PortCode
+# GROUP BY p.PortName"""
+
+# print(pd.read_sql_query(query3, conn))
+
+# import sqlite3
+# import pandas as pd
+
+# df = pd.read_csv('titanic.csv')
+# conn = sqlite3.connect(':memory:')
+# df.to_sql('titanic',conn,index=False)
+
+# query = """SELECT Pclass,Sex,Age,Fare,SibSp,Parch
+# FROM titanic
+# WHERE Survived = 1 AND Pclass = 1"""
+
+# survivors_class1 = pd.read_sql_query(query,conn)
+
+# print(f"Life: {len(survivors_class1)}")
+# print(survivors_class1.head())
+
+# survivors_class1['Age'] = survivors_class1['Age'].fillna(survivors_class1['Age'].median())
+# survivors_class1['FamilySize'] = survivors_class1['SibSp'] + survivors_class1['Parch'] + 1
+
+# print(survivors_class1[['Age','FamilySize']].head())
+
+# import sqlite3
+# import pandas as pd
+
+# df = pd.read_csv('titanic.csv')
+# conn = sqlite3.connect(':memory:')
+# df.to_sql('titanic',conn,index=False)
+
+# query = """SELECT Pclass,Sex,Age,Fare,SibSp,Parch,Survived
+# FROM titanic
+# WHERE Survived = 1 AND Pclass = 3;"""
+
+# survivors_class3 = pd.read_sql_query(query,conn)
+
+# survivors_class3['Age'] = survivors_class3['Age'].fillna(survivors_class3['Age'].median())
+
+# print(f"Life: {len(survivors_class3)}")
+# print(survivors_class3.head())
+
+# import sqlite3
+# import pandas as pd
+
+# df = pd.read_csv('titanic.csv')
+# conn = sqlite3.connect(':memory:')
+# df.to_sql('titanic',conn,index=False)
+
+# query = """SELECT * 
+# FROM titanic
+# LIMIT 5"""
+# print(df.head())
+
+# query = """SELECT COUNT(*) WHERE col IS NULL"""
+# print("====================")
+# print(df.isnull().sum())
+
+# df['Sex'].map({'male': 0, 'female': 1})
+# print(df['Sex'].head())
+
+# pd.get_dummies(df, columns=['col'])
+
+# df['NewCol'] = df['A'] + df['B']
+# print(df['NewCol'])
+
+# import pandas as pd
+# import numpy as np
+# from sklearn.preprocessing import MinMaxScaler
+
+# def prepare_data():
+#     df = pd.read_csv('titanic.csv')
+#     df.drop(['Cabin','Ticket','Name','PassengerId'],axis=1,inplace=True)
+#     df['Age'] = df.groupby('Sex')["Age"].transform(lambda x: x.fillna(x.median()))
+#     df['Embarked'].fillna(df['Embarked'].mode()[0],inplace=True)
+#     df['Sex'] = df['Sex'].map({ 'male': 0, 'female': 1})
+#     df = pd.get_dummies(df, columns=['Embarked'],prefix='Port')
+#     df['FamilySize'] = df['SibSp'] + df['Parch'] + 1
+#     df.drop(['SibSp', 'Parch'], axis=1,inplace = True)
+
+#     scaler = MinMaxScaler()
+#     df[['Age','Fare']] = scaler.fit_transform(df[['Age','Fare']])
+#     return df
+
+
+# df = prepare_data()
+# print(len(df.columns))
+
+# import tensorflow as tf
+
+
+# x = df.drop('Survived',axis = 1).values.astype(np.float32)
+# y = df['Survived'].values.astype(np.int32)
+# Trainer = tf.keras.models.Sequential
+# ([
+#     tf.keras.layers.Dense(16,activation='relu',input_shape = (x.shape[1],)),
+#     tf.keras.layers.Dense(8,activation='relu'),
+#     tf.keras.layers.Dense(2,activation='softmax')
+# ])
+
+# Trainer.compile(optimizer = 'adam',metrics = ['accuracy'],loss = 'sparse_categorical_crossentropy')
+# Trainer.summary()
+
+# history = Trainer.fit(x,y, epochs = 5,batch_size = 32,validation_split = 0.2)
+
+# loss, acc = Trainer.evaluate(x,y,verbose = 1)
+# print(f"Accuracy: {acc:.4f}")
+# print(f"Loss: {loss:.4f}")
+
+
+
+
+# # نسخه خام و کثیف
+# df_raw = pd.read_csv('titanic.csv')
+# # فقط حذف ستون‌های غیرعددی برای جلوگیری از خطا
+# df_raw.drop(['Cabin', 'Ticket', 'Name', 'PassengerId'], axis=1, inplace=True)
+# # جنسیت را دستی عددی کن
+# df_raw['Sex'] = df_raw['Sex'].map({'male': 0, 'female': 1})
+# df_raw['Embarked'] = df_raw['Embarked'].map({'S': 0, 'C': 1, 'Q': 2})
+# # NaNها رو با صفر پر کن (روش بچه‌گونه)
+# df_raw.fillna(0, inplace=True)
+
+# X_raw = df_raw.drop('Survived', axis=1).values.astype(np.float32)
+# y_raw = df_raw['Survived'].values.astype(np.int32)
+
+# model_raw = models.Sequential([
+#     layers.Dense(16, activation='relu', input_shape=(X_raw.shape[1],)),
+#     layers.Dense(8, activation='relu'),
+#     layers.Dense(2, activation='softmax')
+# ])
+# model_raw.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+# history_raw = model_raw.fit(X_raw, y_raw, epochs=5, batch_size=32, validation_split=0.2)
+
+# loss, acc = model_raw.evaluate(X_raw,y_raw,verbose = 1)
+# print(f"Accuracy: {acc:.2f}")
+# print(f"Loss: {loss:.2}")
+
+import sqlite3
+import pandas as pd
+
+df = pd.read_csv('titanic.csv')
+Q1 = df['Fare'].quantile(0.25)
+Q3 = df['Fare'].quantile(0.75)
+IQR = Q3 - Q1
+outliers = df[(df['Fare'] < Q1 - 1.5 * IQR) | (df['Fare'] > Q3 + 1.5 * IQR)]
+
+print(len(outliers))
+
+import sqlite3
+import pandas as pd
+
+df = pd.read_csv('titanic.csv')
+df['Title'] = df['Name'].str.extract(r",\s*([^\.]+)\.",expand=False)
+print(df['Title'].value_counts().head(3))
+rare_titles = df['Title'].value_counts()[df['Title'].value_counts() < 10].index
+
+df['Title'] = df['Title'].replace(rare_titles,"Rare")
+print(df['Title'].value_counts())
